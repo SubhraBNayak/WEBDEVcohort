@@ -1,0 +1,47 @@
+<!--
+################ GETTING COMFORTABLE WITH DIFFERENT METHODS TO FETCH ELEMENTS IN A DOC #################
+
+1. querySelector
+2. querySelectorAll (here we can select a tag, then specify the ith number of tag we want to fetch the content from
+                    for example * document.querySelectorAll('h4')[1], like an array, it fetches the second h4 tag)
+3. getElementbyId
+4. getElementbyClassName
+5. getElementsbyClassName
+
+we can implement one of these functions by using 'document'
+for example * document.querySelector("THE TAG YOU WANT TO SELECT")
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>My To-Do List</h1>
+
+    <div>
+        <ul>
+            <li> Wake up early</li>
+            <li> Complete coding practice</li>
+            <li> Study Digital Logic</li>
+            <li> Go for a walk</li>
+            <li> Read 10 pages of a book</li>
+        </ul>
+    </div>
+    <div>
+        <input type="text" placeholder="write your next task here">
+        <button>ADD TODO</button>
+    </div>
+
+    <script>
+        const user_input =  document.querySelector("input");
+        console.log(user_input.value); //we write value to fetch the content typed by the user in the input tags
+
+        const button_content = document.querySelector("button");
+        console.log(button_content.innerHTML);//we write innerHTML to fetch the content inside the particular tag (mostly except input tag)
+    </script>
+</body>
+</html>
