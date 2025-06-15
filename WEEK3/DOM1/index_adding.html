@@ -1,7 +1,10 @@
 <!--
 ###################### ADDING ELEMENTS IN THE DOCUMENT #######################
+    
+    1. createElement (creates a new Element/Node)
+    2. appendChild (adds the created element to the Document)
 
--->
+    -->
 <!DOCTYPE html>
 <html>
 
@@ -30,15 +33,6 @@
   </div>
 </body>
 
-<script>
-  function addTodo() {
-    const inputEl = document.getElementById("inp");
-    const textNode = document.createElement("div");
-    textNode.innerHTML = inputEl.value;
-    const parentEl = document.getElementById("todos");
-    parentEl.appendChild(textNode);
-
-  }
-</script>
+<script src="script4.js"></script>
 
 </html>
