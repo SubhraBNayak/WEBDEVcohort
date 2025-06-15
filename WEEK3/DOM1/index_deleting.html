@@ -1,0 +1,30 @@
+<!--
+###################### WE ARE DELETING A TAG FROM A DOCUMENT ######################
+    
+    1. removeChild (let's us delete a particular child node of a particular parent Node, so accessing the parent node is necessary)
+    2. onclick attribute inside the button tag let's us trigger another activity in this case a function that deletes the node.
+
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body>
+  <h1>Todo list</h1>
+  <div id="todos">
+    <div id="todo-1">
+      <h4>1. Take class</h4>
+      <button onclick="deleteTodo(1)">delete</button>
+    </div>
+    <div id="todo-2">
+      <h4>2. Go out to eat</h4>
+      <button onclick="deleteTodo(2)">delete</button>
+    </div>
+  </div>
+</body>
+<script src="script3.js"></script>
+</html>
