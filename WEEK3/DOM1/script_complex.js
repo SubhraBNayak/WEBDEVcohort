@@ -32,28 +32,35 @@ function addTodo() {
     let current = i++
     let user_input = document.querySelector("input").value
 
-    let newdiv = document.createElement("div")
-    newdiv.id = `todo-${current}`
-    newdiv.innerHTML =
-        //what if there was a div instead of h4? how can we then access the parent div in the removeTodo funciton
-    `
-        <h4>${current}.${user_input}</h4>
-        <button onclick = "removeTodo(${current})">remove</button>
-        <button onclick = "tickoff(${current})">done</button>
-    `;
+    if(user_input){
+        let newdiv = document.createElement("div")
+        newdiv.id = `todo-${current}`
+        newdiv.innerHTML =
+            //what if there was a div instead of h4? how can we then access the parent div in the removeTodo funciton
+        `
+            <h4>${current}.${user_input}</h4>
+            <button onclick = "removeTodo(${current})">remove</button>
+            <button onclick = "tickoff(${current})">done</button>
+        `;
 
+        let parent_node = document.getElementById("todoContainer")
+        parent_node.appendChild(newdiv)
+    }
+    
+    else{
+        showError(`it can't be empty`)
+    }
+    
     //I am commenting this for now but what if I want to go with the approach coded below
     // let button_feature_1 = createElement("button") //to remove the elements for delete feature
     // let button_feature_2 = createElement("button") //to update for Tickoff feature 
-
+    
     // button_feature_1.innerHTML = remove 
     // button_feature_2.innerHTML = done
-
+    
     // newdiv.appendChild(button_feature_1)
     // newdiv.appendChild(button_feature_2)
-
-    let parent_node = document.getElementById("todoContainer")
-    parent_node.appendChild(newdiv)
+    
 }
 
 function removeTodo(pos) {
@@ -67,4 +74,15 @@ function tickoff(pos) {
     if (!h4.innerHTML.includes("✅")) {
         h4.innerHTML += " { Done ✅ }";
     }
+}
+
+function showError(message) {
+    const banner = document.getElementById("errorBanner");
+    banner.textContent = message;
+    banner.classList.remove("hidden");
+
+    // Hide after 3 seconds
+    setTimeout(() => {
+        banner.classList.add("hidden");
+    }, 3000);
 }
