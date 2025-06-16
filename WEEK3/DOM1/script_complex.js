@@ -28,14 +28,14 @@
 
 */
 let i = 1
-function addTodo(){
+function addTodo() {
     let current = i++
     let user_input = document.querySelector("input").value
-    
+
     let newdiv = document.createElement("div")
     newdiv.id = `todo-${current}`
-    newdiv.innerHTML = 
-    //what if there was a div instead of h4? how can we then access the parent div in the removeTodo funciton
+    newdiv.innerHTML =
+        //what if there was a div instead of h4? how can we then access the parent div in the removeTodo funciton
     `
         <h4>${current}.${user_input}</h4>
         <button onclick = "removeTodo(${current})">remove</button>
@@ -56,13 +56,15 @@ function addTodo(){
     parent_node.appendChild(newdiv)
 }
 
-function removeTodo(pos){
-    let user_delete = document.getElementById("todo-"+pos)
+function removeTodo(pos) {
+    let user_delete = document.getElementById("todo-" + pos)
     user_delete.parentNode.removeChild(user_delete)
 }
 
-function tickoff(pos){
-    let user_tick = document.getElementById("todo-"+pos)
-    let value = user_tick.querySelector("h4").innerHTML
-    value = value + "{ Done ✅ }"
+function tickoff(pos) {
+    let user_tick = document.getElementById("todo-" + pos)
+    let h4 = user_tick.querySelector("h4")
+    if (!h4.innerHTML.includes("✅")) {
+        h4.innerHTML += " { Done ✅ }";
+    }
 }
