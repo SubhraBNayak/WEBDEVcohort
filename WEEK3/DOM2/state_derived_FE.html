@@ -19,14 +19,14 @@
 </body>
 
 <script>
-    let ctr = 1
+    let ctr = 1 
     let todos = [];
     function addTodo() {
       todos.push({
         title: document.querySelector("input").value
       })
-      ctr++
       render(ctr);
+      ctr++
     }
 
     function deleteTodo() {
@@ -35,9 +35,10 @@
     }
  
     function render(pos) {
+        const todo = todos[pos]
         let NewEl = document.createElement("div")
-        NewEl.innerHTML = todos.title[pos]
-        document.querySelector("body").appendChild("NewEl")
+        NewEl.innerHTML = todo.title
+        document.querySelector("body").appendChild(NewEl)
     }
 </script>
 </html>
