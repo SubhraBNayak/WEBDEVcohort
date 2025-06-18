@@ -1,0 +1,43 @@
+<!--
+#################### WE ARE STARTING OUT WITH STATE DERIVED FRONTEND ######################
+
+    1. State is the variable part of the app
+    2. Component is how we render state on screen
+    3. Rendering -> taking the state and rendering it on the DOM based on components
+
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text"></input>
+    <button onclick="addTodo()">Add todo!</button>
+</body>
+
+<script>
+    let ctr = 1
+    let todos = [];
+    function addTodo() {
+      todos.push({
+        title: document.querySelector("input").value
+      })
+      ctr++
+      render(ctr);
+    }
+
+    function deleteTodo() {
+      
+      render();
+    }
+ 
+    function render(pos) {
+        let NewEl = document.createElement("div")
+        NewEl.innerHTML = todos.title[pos]
+        document.body.appendChild("NewEl")
+    }
+</script>
+</html>
