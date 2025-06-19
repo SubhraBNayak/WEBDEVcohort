@@ -41,6 +41,27 @@
     render()
   }
 
+  function editTodo(index){
+    let convert_to_div = document.getElementById("todo-"+index).querySelector("span")
+    convert_to_div.parentNode.removeChild(convert_to_div)
+    let user_input = document.createElement("input")
+    user_input.id = `input-${index}`
+    document.getElementById("todo-"+index).appendChild(user_input)
+    document.getElementById("todo-"+index).querySelectorAll("button")[1].innerText = "save"
+    document.getElementById("todo-"+index).querySelectorAll("button")[1].onclick = () => updateTodo(index)
+  }
+
+  function updateTodo(index){
+    let value = document.getElementById("input-"+index).value
+    if (value){
+      todos[index].title = value
+    }
+    else{
+      alert("edit box can't be empty!")
+    }
+    render ()
+  }
+
   function render() {
     document.getElementById("todo-container").innerHTML = ''
     let todoEl
@@ -48,7 +69,8 @@
       let todoEl = createComponent(index)
       todoEl.id = "todo-" + index
       todoEl.querySelector("span").innerText = (index + 1) + '. ' + todos[index].title
-      todoEl.querySelector("button").innerText = "Delete"
+      todoEl.querySelectorAll("button")[0].innerText = "Delete"//button to delete
+      todoEl.querySelectorAll("button")[1].innerText = "Edit"//button to edit todo
       document.getElementById("todo-container").appendChild(todoEl)
     }
   }
@@ -56,10 +78,13 @@
   function createComponent(index) {
     let newEl = document.createElement("div")
     let newSpan = document.createElement("span")
+    let button2 = document.createElement("button")
     let button = document.createElement("button")
-    button.onclick = () => deleteTodo(index)
     newEl.appendChild(newSpan)
     newEl.appendChild(button)
+    newEl.appendChild(button2)
+    button.onclick = () => deleteTodo(index)
+    button2.onclick = () => editTodo(index)
     return newEl
   }
 </script>
