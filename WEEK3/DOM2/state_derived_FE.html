@@ -8,37 +8,59 @@
 -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
 </head>
+
 <body>
-    <input type="text"></input>
-    <button onclick="addTodo()">Add todo!</button>
+  <input type="text"></input>
+  <button onclick="addTodo()" placeholder="Add todo">Add todo!</button>
+  <div id = "todo-container"></div>
 </body>
 
 <script>
-    let ctr = 1 
-    let todos = [];
-    function addTodo() {
+  let todos = [];
+  function addTodo() {
+    const value = document.querySelector("input").value
+
+    if (value){
       todos.push({
         title: document.querySelector("input").value
       })
-      render(ctr);
-      ctr++
-    }
-
-    function deleteTodo() {
-      
       render();
     }
- 
-    function render(pos) {
-        const todo = todos[pos]
-        let NewEl = document.createElement("div")
-        NewEl.innerHTML = todo.title
-        document.querySelector("body").appendChild(NewEl)
+    else{
+      alert("Add todo can't be empty!")
     }
+  }
+
+  function deleteTodo() {
+
+    render();
+  }
+
+  function render() {
+    document.getElementById("todo-container").innerHTML = ''
+    let todoEl
+    for (let index = 0; index < todos.length; index++) {
+      let todoEl = createComponent()
+      todoEl.querySelector("span").innerText = todos[index].title
+      todoEl.querySelector("button").innerText = "Delete" 
+      document.getElementById("todo-container").appendChild(todoEl)
+    }
+  }
+
+  function createComponent() {
+    let newEl = document.createElement("div")
+    let newSpan = document.createElement("span")
+    let button = document.createElement("button")
+    newEl.appendChild(newSpan)
+    newEl.appendChild(button)
+    return newEl
+  }
 </script>
+
 </html>
