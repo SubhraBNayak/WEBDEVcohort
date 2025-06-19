@@ -3,7 +3,6 @@
 
     1. State is the variable part of the app
     2. Component is how we render state on screen
-    3. Rendering -> taking the state and rendering it on the DOM based on components
 
 -->
 <!DOCTYPE html>
@@ -18,7 +17,7 @@
 <body>
   <input type="text"></input>
   <button onclick="addTodo()" placeholder="Add todo">Add todo!</button>
-  <div id = "todo-container"></div>
+  <div id="todo-container"></div>
 </body>
 
 <script>
@@ -26,37 +25,39 @@
   function addTodo() {
     const value = document.querySelector("input").value
 
-    if (value){
+    if (value) {
       todos.push({
         title: document.querySelector("input").value
       })
       render();
     }
-    else{
+    else {
       alert("Add todo can't be empty!")
     }
   }
 
-  function deleteTodo() {
-
-    render();
+  function deleteTodo(index) {
+    todos.splice(index, 1)
+    render()
   }
 
   function render() {
     document.getElementById("todo-container").innerHTML = ''
     let todoEl
     for (let index = 0; index < todos.length; index++) {
-      let todoEl = createComponent()
-      todoEl.querySelector("span").innerText = todos[index].title
-      todoEl.querySelector("button").innerText = "Delete" 
+      let todoEl = createComponent(index)
+      todoEl.id = "todo-" + index
+      todoEl.querySelector("span").innerText = (index + 1) + '. ' + todos[index].title
+      todoEl.querySelector("button").innerText = "Delete"
       document.getElementById("todo-container").appendChild(todoEl)
     }
   }
 
-  function createComponent() {
+  function createComponent(index) {
     let newEl = document.createElement("div")
     let newSpan = document.createElement("span")
     let button = document.createElement("button")
+    button.onclick = () => deleteTodo(index)
     newEl.appendChild(newSpan)
     newEl.appendChild(button)
     return newEl
