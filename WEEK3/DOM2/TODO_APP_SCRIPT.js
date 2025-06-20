@@ -43,11 +43,15 @@ function render(){
     for (let index = 0; index < todos.length; index++) {
         newEl = createComponent()
         newEl.id = `todo-${index}`;
+        newEl.className = `divEl`
         newEl.querySelector("span").innerText = (index+1) + '.' + todos[index].title;
-        newEl.querySelectorAll("button")[0].innerText = "Delete Task";
+        newEl.querySelector("span").className = `spanEl`
+        newEl.querySelectorAll("button")[0].innerText = "Delete";
         newEl.querySelectorAll("button")[0].onclick = () => deleteTask(index);
+        newEl.querySelectorAll("button")[0].className = `deleteEl`
         newEl.querySelectorAll("button")[1].innerText = "Edit";
         newEl.querySelectorAll("button")[1].id = `edit-${index}`;
+        newEl.querySelectorAll("button")[1].className = `editEl`;
         newEl.querySelectorAll("button")[1].onclick = () => editTask(index);
         document.getElementById("todo-container").appendChild(newEl);
     }
@@ -67,10 +71,12 @@ function editTask(index){
     let prev_span = document.getElementById(`todo-${index}`).querySelector("span");
     prev_span.parentNode.removeChild(prev_span);
     let new_input = document.createElement("input");
+    new_input.className = `input2`
     new_input.value = prev_value;
     document.getElementById(`todo-${index}`).appendChild(new_input);
     new_input.id = `input-${index}`
     document.getElementById(`edit-${index}`).innerText = "Save";
+    document.getElementById(`edit-${index}`).classList.add("saveMode");
     document.getElementById(`edit-${index}`).onclick = () => updateTask(index);
 }
 
@@ -79,6 +85,7 @@ function updateTask(index){
     if(value){
         todos[index].title = value;
         render ();
+        document.getElementById(`edit-${index}`).classList.remove("saveMode");
     }
     else{
         alert("Blank input! Task can't be added!")
