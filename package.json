@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "commander": "^14.0.0"
+    "commander": "^14.0.0",
+    "express": "^5.1.0"
   }
 }
