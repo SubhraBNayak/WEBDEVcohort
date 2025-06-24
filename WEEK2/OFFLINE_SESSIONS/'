@@ -1,0 +1,22 @@
+//check if a string is "" or not
+
+function checkstring(str1, str2){
+	return new Promise((resolve, reject) => {
+		let newstr1 = str1.split().sort().join();
+		let newstr2 = str2.split().sort().join();
+
+		if(newstr1 === newstr2){
+			resolve("success");
+		}else{
+			reject("failure");
+		}
+	})
+}
+
+checkstring("openai", "aiopen").then(()=>{
+	console.log("success");
+}).catch(
+	()=>{
+		console.log("failure");
+	}
+)
