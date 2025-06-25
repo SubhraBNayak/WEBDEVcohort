@@ -12,9 +12,9 @@ const users = [{
     ]
 }]
 
-app.get("/", function(req, res)){
+app.get("/", function(req, res){
     const johnkidneys = users[0].kidney;
     console.log(johnkidneys)
-}
+})
 
 app.listen(3000)
