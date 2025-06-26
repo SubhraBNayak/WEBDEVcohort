@@ -3,7 +3,7 @@
         Feature 1 : GET (200) => Returns the number of kidneys and status of kidneys a user has
         Feature 2 : POST => Any time user makes a post request the server adds an unhealthy kidney
         Feature 3 : PUT => Any time user makes a put request the server updates the value of users.kidneys.Healthy : true/false
-        Feature 4 :
+        Feature 4 : DELETE => Deletes every data related to user kidneys in the database
 */
 const express = require('express');
 const app = express()
@@ -45,6 +45,11 @@ app.put("/", function(req,res){
     for (let index = 0; index < users[0].Kidneys.length; index++) {
         users[0].Kidneys[index].Healthy = false
     }
+    res.json({})
+})
+
+app.delete("/", function(req, res){
+    users[0].Kidneys = [{}]
     res.json({})
 })
 
