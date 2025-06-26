@@ -18,7 +18,7 @@ const app = express();
 app.get("/", function(req, res){
     const n = req.query.n
     const ans = calculatesum(n)
-    res.send(ans.toString())
+    res.send(ans.toString())//make sure you send the result as a string, otherwise it would think it's a status code
 })
 
 app.listen(3000)
