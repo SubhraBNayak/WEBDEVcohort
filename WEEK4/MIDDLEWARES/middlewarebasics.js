@@ -8,7 +8,7 @@ const express = require("express");
 const app = express();
 
 //The ticket_counter here acts as a middleware checking if the user meets bare-minimum criteria to avail the resource
-//This is the exact concept of middleware working in the express library
+//This is the exact concept of middleware working in the express
 function ticket_counter(age, money){
     if (age>=18 && money>=100) {
         return true     
