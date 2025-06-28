@@ -1,4 +1,4 @@
-/**
+/*
     INTERNAL DEPENDENCIES (comes with node.js)
  */
 

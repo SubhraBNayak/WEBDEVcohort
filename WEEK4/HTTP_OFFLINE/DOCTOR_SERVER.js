@@ -4,6 +4,7 @@
         Feature 2 : POST => Any time user makes a post request the server adds an unhealthy kidney
         Feature 3 : PUT => Any time user makes a put request the server updates the value of users.kidneys.Healthy : true/false
         Feature 4 : DELETE => Deletes every data related to user kidneys in the database
+        Feature 4(i) : DELETE => Deletes every data related to user kidneys in the database, False only
 */
 const express = require('express');
 const app = express()
