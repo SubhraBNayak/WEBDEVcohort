@@ -17,7 +17,7 @@ const app = express()
 function checkNum(req, res, next){
     p = parseFloat(req.query.p)
     q = parseFloat(req.query.q)
-    if (isNaN(p) && isNaN(q)) {
+    if (isNaN(p) || isNaN(q)) {
         res.status(400).send("Entered query is not a number")
     }else{
         next()
