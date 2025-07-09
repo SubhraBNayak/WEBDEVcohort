@@ -14,7 +14,17 @@ app.use(express.json())//parses the incoming requests
 const users = []
 
 app.post("/signup", (req,res) => {
+    const username = req.body.username
+    const password = req.body.password
 
+    users.push({
+        "username" : username,
+        "password" : password
+    })
+
+    res.json({
+        message : "you are signed in"
+    })
 })
 
 app.post("/signin", (req, res) => {
