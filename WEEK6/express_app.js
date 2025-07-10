@@ -56,18 +56,15 @@ app.post("/signin", (req, res) => {
     }
     if (user) {
         const token = generateRandomToken()
-        // users[index].push({
-        //     "token" : token
-        // })
+        user.token = token
         res.send({
             token
         })
     }else{
         res.status(403).send({
-            message : "invalid username/password"
+            message : "invalid username or password"
         })
     }
 })
 
 app.listen(3000)
-
