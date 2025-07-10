@@ -5,6 +5,9 @@
     -> use express.json as a middleware to parse the post request of the body
     -> create an in memory variable called users to where you store the username, password and a random token 
     -> create a function called generateRandomToken, that generated random tokens
+    -> write the signin endpoint that creates a token and gives it to the user 
+       if the username and password exists in the database. The user can use this randomly generated 
+       token to send further requests, and there won't be any need for repeated authentication. 
 */
 
 const express = require("express")
@@ -42,7 +45,28 @@ app.post("/signup", (req,res) => {
 })
 
 app.post("/signin", (req, res) => {
-    generateRandomToken();
+    const username = req.body.username
+    const password = req.body.password
+    let user = ""
+    for (let index = 0; index < users.length; index++) {
+        if (username === users[index].username && password === users[index].password) {
+            user = users[index]
+            break;
+        }
+    }
+    if (user) {
+        const token = generateRandomToken()
+        // users[index].push({
+        //     "token" : token
+        // })
+        res.send({
+            token
+        })
+    }else{
+        res.status(403).send({
+            message : "invalid username/password"
+        })
+    }
 })
 
 app.listen(3000)
