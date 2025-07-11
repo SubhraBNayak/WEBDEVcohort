@@ -7,8 +7,8 @@ function checkstring(str1, str2){
 		arr1.sort();
 		let newstr1 = arr1.join("");
 
-		let lowercasestr1 = str2.toLowerCase();
-		let arr2 = str2.split("");
+		let lowercasestr2 = str2.toLowerCase();
+		let arr2 = lowercasestr2.split("");
 		arr2.sort();
 		let newstr2 = arr2.join("");
 
