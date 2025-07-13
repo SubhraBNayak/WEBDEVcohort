@@ -10,7 +10,28 @@ const JWT_SECRET = "ihateyou"
 
 let users = []
 
-function authorize(){}
+function authorize_user(req, res, next){
+    const token = req.headers.token
+    const decoded_information = jwt.verify(token, JWT_SECRET)
+
+    // for (let index = 0; index < users.length; index++) {
+    //     if (users[i].username == decoded_information) {
+    //         next()
+    //     }
+    // }
+    // res.status(403).send({
+    //     message : "You are not logged in!"
+    // })
+
+    if (decoded_information.username) {
+        req.username = decoded_information.username //modefying the request object as a middleware, for all the other enpoints to use
+        next()
+    }else{
+        res.status(403).send({
+            message: "you are not logged in!"
+        })
+    }
+}
 
 function check_user(req, res, next){
     const username = req.body.username
@@ -82,6 +103,24 @@ app.post("/signin", verify_user, function(req, res){
     res.status(200).json({
         token : token
     })
+})
+
+app.get("/me", authorize_user, function(req, res){
+    // const token = req.headers.token
+    // const decoded_username = jwt.verify(token, JWT_SECRET)
+
+    //req.username consists the username of the client. It has been created by the authorize_user middleware, it makes our lives eaiser
+    //as we won't have to manually verify the jwt tokens inside the endpoints
+    for (let index = 0; index < users.length; index++) {
+        if(users[i].username == req.username){
+            res.status(200).send({
+                username : users[i].username,
+                password : users[i].password
+            })
+            return
+        }
+    }
+    return
 })
 
 app.listen(3000)
