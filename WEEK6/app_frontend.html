@@ -1,0 +1,87 @@
+<!--
+    ######################### CREATING THE EXPRESS APP FRONTEND #########################
+    we are creating a frontend that let's us 
+    1. signup
+    2. signin
+    3. 
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>first fullstack application</title>
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
+    <script>
+
+        async function signup(){
+            const username = document.getElementById("signup-username").value
+            const password = document.getElementById("signup-password").value
+    
+            const response = await axios.post("http://localhost:3000/signup",{
+                username : username,
+                password : password
+            })
+            if (response.status == 200) {
+                alert("signed up successfully!")
+            }else if(response.status == 402){
+                alert("error! user already exists")
+            }else if(response.status == 403){
+                alert("error! username taken")
+            }else{
+                alert("unprecedented error occured!")
+            }
+        }
+        async function signin() {
+            const username = document.getElementById("signin-username").value
+            const password = document.getElementById("signin-password").value
+    
+            const response  = await axios.post("http://localhost:3000/signin",{
+                username : username,
+                password : password
+            })
+            if (response.status == 200){
+                localStorage.setItem("token", response.data.token)
+                alert("signin successfull")
+            }else if(response.status == 403){
+                alert("user credentials invalid!")
+            }else{
+                alert("unprecedented error occured!")
+            }
+        }
+        async function getuserinfo() {
+            const response = await axios.get("http://localhost:3000/me",{},{
+                token : token
+            })
+            let information_div = document.getElementById("information")
+            information_div.value = `username : ${response.username} and password : ${response.password}`
+        }
+        function logout(){
+            token = ""
+            alert("user logged out!")
+        }
+    </script>
+<body>
+    <div>
+        Signup
+        <input type="text" name="username" placeholder="Username" id="signup-username">
+        <input type="password" name="password" placeholder="Password" id="signup-password">
+        <button onclick="signup()">Submit</button>
+    </div>
+    <div>
+        Signin
+        <input type="text" name="username" placeholder="Username" id="signin-username">
+        <input type="password" name="password" placeholder="Password" id="signin-password">
+        <button onclick="signin()">Submit</button>
+    </div>
+    <div>
+        User information: 
+        <div id="information" ></div>
+        <button onclick="getuserinfo()">GetInfo</button>
+    </div>
+    <div>
+        <button aria-placeholder="logout", onclick="logout()">Logout</button>
+    </div>
+</body>
+</html>

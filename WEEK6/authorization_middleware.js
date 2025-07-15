@@ -5,6 +5,9 @@
 const express = require("express")
 const app = express()
 
+const cors = require("cors")
+app.use(cors())
+
 const jwt = require("jsonwebtoken")
 const JWT_SECRET = "ihateyou"
 
@@ -40,7 +43,7 @@ function check_user(req, res, next){
     let index = 0;
     for(index = 0 ; index<users.length ; index++){
         if(username == users[index].username && password == users[index].password){
-            res.status(403).send("user already exists!")
+            res.status(402).send("user already exists!")
             return
         }
     }
@@ -87,7 +90,7 @@ app.post("/signup", check_user , check_username ,function(req, res){
         "username" : username,
         "password" : password,
     })  
-        res.status(200).send({
+    res.status(200).send({
         message : "user signed up!"
     })
 })
