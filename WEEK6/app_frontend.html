@@ -7,6 +7,7 @@
 -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,84 +15,121 @@
     <link rel="stylesheet" href="style_signin.css">
 </head>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
-    <script>
+<script>
 
-        async function signup(){
-            const username = document.getElementById("signup-username").value
-            const password = document.getElementById("signup-password").value
-    
-            const response = await axios.post("http://localhost:3000/signup",{
-                username : username,
-                password : password
-            })
-            if (response.status == 200) {
-                alert("signed up successfully!")
-            }else if(response.status == 402){
-                alert("error! user already exists")
-            }else if(response.status == 403){
-                alert("error! username taken")
-            }else{
-                alert("unprecedented error occured!")
+    async function signup() {
+        const username = document.getElementById("signup-username").value
+        const password = document.getElementById("signup-password").value
+        const errorDiv = document.getElementById("error");
+
+        
+        if (!username || !password) {
+            errorDiv.innerText = "Username or password missing!";
+            errorDiv.style.display = "block";
+            await setTimeout(()=>{
+                    hideError()
+            }, 2000)
+            return;
+        }
+
+        errorDiv.style.display = "none"; // Hide error if inputs are valid
+
+        const response = await axios.post("http://localhost:3000/signup", {
+            username: username,
+            password: password
+        })
+        if (response.status == 200) {
+            alert("signed up successfully!")
+        } else if (response.status == 402) {
+            alert("error! user already exists")
+        } else if (response.status == 403) {
+            alert("error! username taken")
+        } else {
+            alert("unprecedented error occured!")
+        }
+    }
+    async function signin() {
+        const username = document.getElementById("signin-username").value
+        const password = document.getElementById("signin-password").value
+        const errorDiv = document.getElementById("error");
+
+        if (!username || !password) {
+            errorDiv.innerText = "Username or password missing!";
+            errorDiv.style.display = "block";
+            setTimeout(()=>{
+                hideError()
+            }, 2000)
+            return;
+        }
+
+        errorDiv.style.display = "none"; // Hide error if inputs are valid
+
+
+        const response = await axios.post("http://localhost:3000/signin", {
+            username: username,
+            password: password
+        })
+        if (response.status == 200) {
+            localStorage.setItem("token", response.data.token)
+            alert("signin successfull")
+        } else if (response.status == 403) {
+            alert("user credentials invalid!")
+        } else {
+            alert("unprecedented error occured!")
+        }
+    }
+    async function getuserinfo() {
+        const response = await axios.get("http://localhost:3000/me", {
+            headers: {
+                token: localStorage.getItem("token")
             }
-        }
-        async function signin() {
-            const username = document.getElementById("signin-username").value
-            const password = document.getElementById("signin-password").value
-    
-            const response  = await axios.post("http://localhost:3000/signin",{
-                username : username,
-                password : password
-            })
-            if (response.status == 200){
-                localStorage.setItem("token", response.data.token)
-                alert("signin successfull")
-            }else if(response.status == 403){
-                alert("user credentials invalid!")
-            }else{
-                alert("unprecedented error occured!")
-            }
-        }
-        async function getuserinfo() {
-            const response = await axios.get("http://localhost:3000/me",{
-                headers : {
-                    token : localStorage.getItem("token")
-                }
-            })
-            let information_div = document.getElementById("information")
-            information_div.innerHTML = `username : ${response.data.username} and password : ${response.data.password}`
-        }
-        function logout(){
-            localStorage.removeItem("token")//fully removes the jwt token sent by the backend.
-            let information_div = document.getElementById("information")
-            information_div.innerHTML = ""
-            alert("user logged out!")
-        }
-    </script>
+        })
+        let information_div = document.getElementById("information")
+        information_div.innerHTML = `username : ${response.data.username} and password : ${response.data.password}`
+    }
+    function logout() {
+        localStorage.removeItem("token")//fully removes the jwt token sent by the backend.
+        let information_div = document.getElementById("information")
+        information_div.innerHTML = ""
+        alert("user logged out!")
+    }
+    function hideError() {
+        document.getElementById("error").style.display = "none";
+    }
+</script>
+
 <body>
-<div class="container">
-    <h2>Nayak Software Limited</h2>
-    <!-- Error Display -->
-    <div id="error" class="error-message" style="display:none;"></div>
-    <div>
-        Signup
-        <input type="text" name="username" placeholder="Username" id="signup-username">
-        <input type="password" name="password" placeholder="Password" id="signup-password">
-        <button onclick="signup()">Submit</button>
+    <div class="container">
+        <h2>Nayak Software Limited</h2>
+        <!-- Error Display -->
+        <div id="error" class="error-message" style="display:none;"></div>
+        <div>
+            Signup
+            <input type="text" name="username" placeholder="Username" id="signup-username">
+            <input type="password" name="password" placeholder="Password" id="signup-password">
+            <button onclick="signup()">Submit</button>
+        </div>
+        <div>
+            Signin
+            <input type="text" name="username" placeholder="Username" id="signin-username">
+            <input type="password" name="password" placeholder="Password" id="signin-password">
+            <button onclick="signin()">Submit</button>
+        </div>
+        <div>
+            User information:
+            <div id="information"></div>
+            <button onclick="getuserinfo()">GetInfo</button>
+        </div>
+        <div>
+            <button aria-placeholder="logout" , onclick="logout()">Logout</button>
+        </div>
+        <div id="error" class="error-message" style="display: none;">
+            <span id="error-text">Something went wrong</span>
+            <button onclick="hideError()"
+                style="float: right; background: none; border: none; font-weight: bold; color: #842029; cursor: pointer;">&times;</button>
+        </div>
+
     </div>
-    <div>
-        Signin
-        <input type="text" name="username" placeholder="Username" id="signin-username">
-        <input type="password" name="password" placeholder="Password" id="signin-password">
-        <button onclick="signin()">Submit</button>
-    </div>
-    <div>
-        User information: 
-        <div id="information" ></div>
-        <button onclick="getuserinfo()">GetInfo</button>
-    </div>
-    <div>
-        <button aria-placeholder="logout", onclick="logout()">Logout</button>
-    </div>
-</div>
 </body>
+
 </html>
