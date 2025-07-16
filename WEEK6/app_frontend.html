@@ -59,6 +59,12 @@
             let information_div = document.getElementById("information")
             information_div.innerHTML = `username : ${response.data.username} and password : ${response.data.password}`
         }
+        function logout(){
+            localStorage.removeItem("token")//fully removes the jwt token sent by the backend.
+            let information_div = document.getElementById("information")
+            information_div.innerHTML = ""
+            alert("user logged out!")
+        }
     </script>
 <body>
     <div>
