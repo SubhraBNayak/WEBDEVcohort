@@ -14,9 +14,10 @@ const JWT_SECRET = "ihateyou"
 let users = []
 
 function authorize_user(req, res, next){
+    console.log("before verification")
     const token = req.headers.token
     const decoded_information = jwt.verify(token, JWT_SECRET)
-
+    console.log("after verification")
     // for (let index = 0; index < users.length; index++) {
     //     if (users[i].username == decoded_information) {
     //         next()
@@ -26,11 +27,13 @@ function authorize_user(req, res, next){
     //     message : "You are not logged in!"
     // })
 
-    if (decoded_information.username) {
+    if (decoded_information.username){
         req.username = decoded_information.username //modefying the request object as a middleware, for all the other enpoints to use
+        console.log("sending next!")
         next()
     }else{
-        res.status(403).send({
+        console.log("verification unsuccessful")
+        return res.status(403).send({
             message: "you are not logged in!"
         })
     }
@@ -43,8 +46,7 @@ function check_user(req, res, next){
     let index = 0;
     for(index = 0 ; index<users.length ; index++){
         if(username == users[index].username && password == users[index].password){
-            res.status(402).send("user already exists!")
-            return
+            return res.status(402).send("user already exists!")
         }
     }
     next()
@@ -60,8 +62,7 @@ function verify_user(req, res, next){
             next()
         }
     }
-    res.status(403).send("user credentials invalid!")
-    return
+    return res.status(403).send("user credentials invalid!")
 }
 
 function check_username(req, res, next){
@@ -71,10 +72,9 @@ function check_username(req, res, next){
     let index = 0
     for (index = 0; index < users.length; index++) {
         if(username == users[index].username){
-            res.status(403).send({
+            return res.status(403).send({
                 message : "username already taken!"
             })
-            return
         }       
     }
     next()
@@ -90,7 +90,7 @@ app.post("/signup", check_user , check_username ,function(req, res){
         "username" : username,
         "password" : password,
     })  
-    res.status(200).send({
+    return res.status(200).send({
         message : "user signed up!"
     })
 })
@@ -103,7 +103,7 @@ app.post("/signin", verify_user, function(req, res){
         username
     }, JWT_SECRET)
 
-    res.status(200).json({
+    return res.status(200).json({
         token : token
     })
 })
@@ -115,12 +115,11 @@ app.get("/me", authorize_user, function(req, res){
     //req.username consists the username of the client. It has been created by the authorize_user middleware, it makes our lives eaiser
     //as we won't have to manually verify the jwt tokens inside the endpoints
     for (let index = 0; index < users.length; index++) {
-        if(users[i].username == req.username){
-            res.status(200).send({
-                username : users[i].username,
-                password : users[i].password
+        if(users[index].username == req.username){
+            return res.status(200).send({
+                username : users[index].username,
+                password : users[index].password
             })
-            return
         }
     }
     return

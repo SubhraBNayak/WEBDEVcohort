@@ -51,15 +51,13 @@
             }
         }
         async function getuserinfo() {
-            const response = await axios.get("http://localhost:3000/me",{},{
-                token : token
+            const response = await axios.get("http://localhost:3000/me",{
+                headers : {
+                    token : localStorage.getItem("token")
+                }
             })
             let information_div = document.getElementById("information")
-            information_div.value = `username : ${response.username} and password : ${response.password}`
-        }
-        function logout(){
-            token = ""
-            alert("user logged out!")
+            information_div.innerHTML = `username : ${response.data.username} and password : ${response.data.password}`
         }
     </script>
 <body>
