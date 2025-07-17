@@ -1,0 +1,46 @@
+<!--
+################### CODING A FULLY FUNCTIONAL TODO LIST #####################
+    -> Feature 1 : Adding todos (we will be using a todos array to fetch value from the input box and render it )
+    -> Feature 2 : Deleting todos (we can delete a task in the todo app, incase the user wants to shift the task to some other day)
+    -> Feature 3 : Editing todos (we should be able to edit the task, incase the user wants to change or add anything in the existing task
+                    without deleting the entire task, here when user clicks on edit, there must be an input bar, with the previous task pre-typed
+                    so the user can make changes quickly, meanwhile edit button would have been changed to save button, when user clicks on save
+                    it should render the changes made)  
+
+--><!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProTask | Todo Manager</title>
+  <link rel="stylesheet" href="TODO_APP_STYLE.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div class="app-container">
+    <header>
+      <h1>ProTask</h1>
+      <p>Manage your day like a pro</p>
+    </header>
+
+    <main>
+      <section class="input-section">
+        <div class="todo-input-wrapper">
+            <input type="text" placeholder="Write your tasks for today!">
+            <button onclick="addTodo()" id="addTodo">Add Task</button>
+        </div>
+      </section>
+      <section id="todo-container" class="todo-lists"></section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 ProTask Inc. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script src="TODO_APP_SCRIPT.js"></script>
+</body>
+
+</html>
