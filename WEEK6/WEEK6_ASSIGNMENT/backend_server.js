@@ -5,6 +5,8 @@
             two different users can't have the same username. (error 409 conflict)
             => introduce a middleware that should check if a user with same username, password exists.
             if so, thorw an error, "user already exists! try signing in".
+    2. feat => signin, user can enter details to avail the features, after authentication
+    3. feat => auth, authorizes the user details
 */
 const express = require("express")
 const app = express()

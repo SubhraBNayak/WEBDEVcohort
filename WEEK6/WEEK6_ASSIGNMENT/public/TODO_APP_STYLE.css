@@ -187,3 +187,33 @@ footer {
   font-size: 0.85rem;
 }
 
+button {
+    background-color: #780303;
+    color: white;
+    margin: 7px;
+    padding: 12px 20px;
+    font-size: 15px;
+    font-weight: 500;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+button::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    height: 100%; width: 0%;
+    background: rgba(255,255,255,0.15);
+    z-index: 0;
+    transition: width 0.3s ease;
+}
+button:hover::before {
+    width: 100%;
+}
+button:hover {
+    transform: translateY(-2px);
+}
