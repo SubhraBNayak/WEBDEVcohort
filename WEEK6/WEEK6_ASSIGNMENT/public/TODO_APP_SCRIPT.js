@@ -5,13 +5,34 @@ let todos = [];
     addTodo function is going to add a new state ('title') into the todos array
     then it calls the render function to display the changes made in the browser
 */
-function addTodo(){
-    const value = document.querySelector("input").value;
+async function addTodo(){
+    const value = document.querySelector("input").value 
     if(value){
-        todos.push({
-            title:document.querySelector("input").value
+        console.log("above response 1")
+        const response1 = await axios.post("http://localhost:3000/pushTodoItem",{
+            todoItem : value
+        },{
+            headers : {
+                token : localStorage.getItem("token")
+            }
         })
-        render ();
+        console.log("after response 1")
+        if (response1.status == 200) {
+            console.log("above response 2")
+            const response2 = await axios.get("http://localhost:3000/fetchTodoItems", {
+                headers : {
+                    token : localStorage.getItem("token")
+                }
+            })
+            if (response2.status == 200) {
+                console.log("before creating duplicate todos")
+                todos = response2.data.todoItems
+                console.log(todos)
+                render()
+            }else{
+                alert("couldn't retrieve data from the backend!")
+            }
+        }
     }
     else{
         alert("Blank input! Task can't be added!");
@@ -44,7 +65,7 @@ function render(){
         newEl = createComponent()
         newEl.id = `todo-${index}`;
         newEl.className = `divEl`
-        newEl.querySelector("span").innerText = (index+1) + '.' + todos[index].title;
+        newEl.querySelector("span").innerText = (index+1) + '.' + todos[index];
         newEl.querySelector("span").className = `spanEl`
         newEl.querySelectorAll("button")[0].innerText = "Delete";
         newEl.querySelectorAll("button")[0].onclick = () => deleteTask(index);

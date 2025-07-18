@@ -93,12 +93,68 @@ app.post("/signin", authorize_user, function(req, res){
 
 app.get("/auth", function (req, res){
     const token = req.headers.token
-    const username = jwt.verify(token, JWT_SECRET)
+    const username = jwt.verify(token, JWT_SECRET).username
 
     if (username) {
         res.send(200)
     }else{
         res.send(401)
+    }
+})
+
+app.post("/pushTodoItem", function(req, res){
+    const token = req.headers.token
+    const todoItem = req.body.todoItem 
+    const username = jwt.verify(token, JWT_SECRET).username
+
+    if (username) {
+        for (let index = 0; index < users.length; index++) {
+            if (username === users[index].username) {
+                if (!users[index].todo) {
+                    users[index].todo = []
+                    users[index].todo.push(todoItem)
+                    return res.status(200).send({
+                        message : "todo updated!"
+                    })
+                }
+                else if(users[index].todo){
+                    users[index].todo.push(todoItem)
+                    return res.status(200).send({
+                        message : "todo updated!"
+                    })
+                }
+                else{
+                    return res.status(403).send({
+                        message : "maybe user doesn't exist"
+                    })
+                }
+            }
+        }
+    }else{
+        return res.status(401).send({
+            message : "user authentication failed! check credentials"
+        })
+    }
+})
+
+app.get("/fetchTodoItems", function(req, res){
+    const token = req.headers.token
+    const username = jwt.verify(token, JWT_SECRET).username
+
+    if (username) {
+        for (let index = 0; index < users.length; index++) {
+            if (username === users[index].username) {
+                let todoItems = users[index].todo
+                console.log(todoItems)
+                return res.status(200).send({
+                    todoItems
+                })
+            }
+        }
+    }else{
+        return res.status(401).send({
+            message : "user authentication failed check user credentials!!"
+        })
     }
 })
 
