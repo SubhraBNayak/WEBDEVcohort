@@ -1,0 +1,67 @@
+<!--
+##################### DENIED ENTRY WEBPAGE #####################
+    This is the webpage people get directed to if they try to access a website without logging in
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Access Denied</title>
+  <style>
+    body {
+      background-color: #1a1a1a;
+      color: #ff4c4c;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #f0f0f0;
+      font-size: 1.4rem;
+      font-weight: 400;
+      text-align: center;
+      margin: 0 20px 20px;
+    }
+
+    button {
+      padding: 12px 24px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background-color: #14c500;
+      color: #1a1a1a;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px #00ccff66;
+    }
+
+    button:hover {
+      background-color: #00e6ff;
+      box-shadow: 0 0 15px #00e6ff99;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <h1>Access Denied</h1>
+  <p>You must be signed in to view this page.</p>
+  <button onclick="goToLogin()">Go To Login</button>
+
+  <script>
+    function goToLogin(){
+      window.location.href = "login_frontend.html";
+    }
+  </script>
+</body>
+</html>

@@ -5,6 +5,26 @@ let todos = [];
     addTodo function is going to add a new state ('title') into the todos array
     then it calls the render function to display the changes made in the browser
 */
+async function fetchPreData(){
+    const jwtToken = localStorage.getItem("token")
+    if(jwtToken){
+        const response = await axios.get("http://localhost:3000/fetchTodoItems", {
+            headers : {
+                token : localStorage.getItem('token')
+            }
+        })
+        if (response.status == 200) {
+            todos = response.data.todoItems
+            render()
+        }
+    }else{
+        window.location.href = "loginError.html"
+    }
+}
+
+//calling fetchPreData to get the preliminary information already stored in the database by user
+fetchPreData()
+
 async function addTodo(){
     const value = document.querySelector("input").value 
     if(value){
@@ -25,9 +45,7 @@ async function addTodo(){
                 }
             })
             if (response2.status == 200) {
-                console.log("before creating duplicate todos")
                 todos = response2.data.todoItems
-                console.log(todos)
                 render()
             }else{
                 alert("couldn't retrieve data from the backend!")
