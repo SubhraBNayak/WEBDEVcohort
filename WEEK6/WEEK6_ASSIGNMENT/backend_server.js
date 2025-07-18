@@ -158,4 +158,25 @@ app.get("/fetchTodoItems", function(req, res){
     }
 })
 
+app.delete("/deleteTodoItems", function(req, res){
+    const token = req.headers.token
+    const deleteIndex = req.headers.deleteIndex
+    const username = jwt.verify(token, JWT_SECRET).username
+
+    if (username) {
+        for (let index = 0; index < users.length; index++) {
+            if (users[index].username === username) {
+                users[index].todo.splice(deleteIndex, 1)
+                return res.status(200).send({
+                    message : "deleted!"
+                })
+            }
+        }
+    }else{
+        return res.status(401).send({
+            message : "user authentication failed! check credentials"
+        })
+    }
+})
+
 app.listen(3000)

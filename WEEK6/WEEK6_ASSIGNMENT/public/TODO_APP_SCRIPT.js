@@ -100,9 +100,26 @@ function render(){
     deleteTask function only updates the todos array, only deletes the task that was clicked by the user to be deleted
     render () function is called again inorder to render the changes
 */
-function deleteTask(index){
-    todos.splice(index,1);
-    render (); //now when render is called the entire list needs to rendered again
+async function deleteTask(index){
+    const response = await axios.delete("http://localhost:3000/deleteTodoItems", {
+        headers : {
+            token : localStorage.getItem("token"),
+            deleteIndex : index
+        }
+    })
+    if(response.status == 200){
+        const response2 = await axios.get("http://localhost:3000/fetchTodoItems", {
+                headers : {
+                    token : localStorage.getItem("token")
+                }
+            })
+            if (response2.status == 200) {
+                todos = response2.data.todoItems
+                render()
+            }else{
+                alert("couldn't retrieve data from the backend!")
+            }
+    }
 }
 
 function editTask(index){
