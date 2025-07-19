@@ -179,4 +179,25 @@ app.delete("/deleteTodoItems", function(req, res){
     }
 })
 
+app.post("/updateTodoItems", function(req, res){
+    const updateValue = req.body.updateValue
+    const token = req.headers.token
+    const updateIndex = req.body.updateIndex
+    const username = jwt.verify(token, JWT_SECRET).username
+    if (username) {
+        for (let index = 0; index < users.length; index++) {
+            if (users[index].username === username) {
+                users[index].todo[updateIndex] = updateValue
+                return res.status(200).send({
+                    message : "updated!"
+                })
+            }
+        }
+    }else{
+        return res.status(401).send({
+            message : "user authentication failed! check credentials"
+        })
+    }
+})
+
 app.listen(3000)

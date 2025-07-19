@@ -1,8 +1,8 @@
-//we'll use this 'todos' array to store the states under 'title'
+//we'll use this 'todos' array to store the states under '
 let todos = [];
 
 /*
-    addTodo function is going to add a new state ('title') into the todos array
+    addTodo function is going to add a new state (') into the todos array
     then it calls the render function to display the changes made in the browser
 */
 async function fetchPreData(){
@@ -123,7 +123,7 @@ async function deleteTask(index){
 }
 
 function editTask(index){
-    let prev_value = todos[index].title
+    let prev_value = todos[index]
     let prev_span = document.getElementById(`todo-${index}`).querySelector("span");
     prev_span.parentNode.removeChild(prev_span);
     let new_input = document.createElement("input");
@@ -136,11 +136,31 @@ function editTask(index){
     document.getElementById(`edit-${index}`).onclick = () => updateTask(index);
 }
 
-function updateTask(index){
+async function updateTask(index){
     const value = document.getElementById(`input-${index}`).value;
     if(value){
-        todos[index].title = value;
-        render ();
+        const response = await axios.post("http://localhost:3000/updateTodoItems", {
+            updateValue : value,
+            updateIndex : index
+        },{
+            headers : {
+                token : localStorage.getItem("token"),
+            }
+        })
+        if(response.status == 200){
+            const response2 = await axios.get("http://localhost:3000/fetchTodoItems", {
+                    headers : {
+                        token : localStorage.getItem("token")
+                    }
+                })
+                if (response2.status == 200) {
+                    todos = response2.data.todoItems
+                    render()
+                }else{
+                    alert("couldn't retrieve data from the backend!")
+                }
+        }
+        
         document.getElementById(`edit-${index}`).classList.remove("saveMode");
     }
     else{
