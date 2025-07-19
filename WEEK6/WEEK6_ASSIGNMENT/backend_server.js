@@ -145,7 +145,6 @@ app.get("/fetchTodoItems", function(req, res){
         for (let index = 0; index < users.length; index++) {
             if (username === users[index].username) {
                 let todoItems = users[index].todo
-                console.log(todoItems)
                 return res.status(200).send({
                     todoItems
                 })
