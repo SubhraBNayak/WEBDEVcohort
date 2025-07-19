@@ -1,13 +1,46 @@
 /*
     ####################### SERVER OF THE LOGIN PAGE #######################
-    1. feat => signup, pushing the user details into a users array
-            => introduce a middleware that checks if someone exists with the same username
-            two different users can't have the same username. (error 409 conflict)
-            => introduce a middleware that should check if a user with same username, password exists.
-            if so, thorw an error, "user already exists! try signing in".
-    2. feat => signin, user can enter details to avail the features, after authentication
-    3. feat => auth, authorizes the user details
+
+     OVERVIEW:
+    This is the backend server handling user authentication (signup & signin)
+    using an in-memory `users` array. It provides basic login functionality,
+    prevents duplicate users, and handles authentication with appropriate status codes.
+
+    ----------------------------------------------------------------------
+
+     FEATURES IMPLEMENTED:
+
+    1.   Signup:
+       - Allows a new user to register with a unique username and password.
+       - Middleware checks:
+          If a user already exists with the same username → return 409 Conflict.
+          If a user with same username & password exists → return 400 Bad Request with 
+            message: "User already exists! Try signing in."
+
+    2.  Signin:
+       - Allows existing users to log in by validating username and password.
+       - If user is not found → return 401 Unauthorized with message: "Invalid credentials."
+
+    3.  Auth Middleware:
+       - Middleware runs before protected routes to check if user details (username + password) match.
+       - Ensures only authenticated users can access specific pages or actions.
+
+    ----------------------------------------------------------------------
+
+     NOTE:
+    - This server uses an in-memory `users` array → All data will be lost on restart.
+    - In real-world applications, use hashed passwords and a database like MongoDB or PostgreSQL.
+
+    ----------------------------------------------------------------------
+
+    🔧 STATUS CODES USED:
+    - 200 OK → Successful login
+    - 201 Created → Successful signup
+    - 400 Bad Request → User already exists with same credentials
+    - 401 Unauthorized → Wrong username or password
+    - 409 Conflict → Username already taken
 */
+
 const express = require("express")
 const app = express()
 

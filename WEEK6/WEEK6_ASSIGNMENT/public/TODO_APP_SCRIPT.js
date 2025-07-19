@@ -1,3 +1,59 @@
+/*
+    ######################### TODO APP FRONTEND SCRIPT #########################
+
+     OVERVIEW:
+    This script handles all frontend logic for the TODO web application.
+    It communicates with the backend to perform operations like fetching,
+    adding, and deleting TODOs. It also manages user authentication state using
+    `localStorage`.
+
+    ----------------------------------------------------------------------
+
+     FEATURES IMPLEMENTED:
+
+    1.  User Authentication Check:
+       - On page load, checks if a valid token is present in `localStorage`.
+       - If token is absent, redirects user to an access-denied page (denied.html).
+
+    2.  Fetching TODOs:
+       - Sends a `GET` request to the backend with an Authorization header.
+       - Renders the list of TODOs dynamically on the page.
+
+    3.  Adding a TODO:
+       - Captures the input from a form or textbox.
+       - Sends a `POST` request to backend with the new TODO and token.
+       - Updates the DOM with the newly added TODO.
+
+    4.  Deleting a TODO:
+       - Each TODO entry has a delete button associated with it.
+       - On clicking delete, sends a `DELETE` request with the TODO ID.
+       - Removes the TODO from the DOM on success.
+
+    5.  Logout Functionality:
+       - Clears `localStorage` and redirects the user back to the login page.
+
+    ----------------------------------------------------------------------
+
+     ERROR HANDLING:
+    - Displays alert messages or logs to console for:
+       Missing authentication token
+       Backend errors (like 401 Unauthorized, 500 Server Error)
+       Network issues
+
+    ----------------------------------------------------------------------
+
+     DEPENDENCIES:
+    - None (uses vanilla JavaScript + Fetch API)
+
+    ----------------------------------------------------------------------
+
+     FUTURE IMPROVEMENTS:
+    - Add loading spinners while fetching data.
+    - Implement edit functionality for TODO items.
+    - Add persistent token handling and refresh mechanism.
+
+*/
+
 //we'll use this 'todos' array to store the states under '
 let todos = [];
 
