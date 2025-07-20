@@ -1,5 +1,36 @@
 <!--
-    ##################### FRONT END FOR THE LOGIN PAGE #####################
+######################### LOGIN PAGE FRONTEND SCRIPT #########################
+
+ OVERVIEW:
+This script handles all user authentication functionalities on the frontend.
+It provides an interface for user signup, signin, and logout. It communicates
+with the backend API using Axios for data persistence and authentication.
+
+------------------------------------------------------------------------------
+
+ FEATURES IMPLEMENTED:
+
+1 SIGNUP:
+    - Takes username and password from the input fields.
+    - Sends POST request to backend to register the user.
+    - Displays appropriate errors (e.g. if user already exists).
+
+2 SIGNIN:
+    - Sends entered credentials to backend for verification.
+    - On success, stores the token in `localStorage`.
+    - On failure, shows an error message.
+
+3 LOGOUT:
+    - Clears the token from `localStorage`.
+    - Effectively logs the user out from the session.
+
+4 ERROR HANDLING:
+    - Displays error messages in the DOM in case of failed requests.
+    - Hide errors on user interaction (× button).
+
+ NOTE:
+    - The script assumes that the backend exposes routes like `/signup` and `/signin`.
+    - Proper validation and error-handling is essential on the backend too.
 -->
 
 <!DOCTYPE html>

@@ -1,13 +1,43 @@
 <!--
 ################### CODING A FULLY FUNCTIONAL TODO LIST #####################
-    -> Feature 1 : Adding todos (we will be using a todos array to fetch value from the input box and render it )
-    -> Feature 2 : Deleting todos (we can delete a task in the todo app, incase the user wants to shift the task to some other day)
-    -> Feature 3 : Editing todos (we should be able to edit the task, incase the user wants to change or add anything in the existing task
-                    without deleting the entire task, here when user clicks on edit, there must be an input bar, with the previous task pre-typed
-                    so the user can make changes quickly, meanwhile edit button would have been changed to save button, when user clicks on save
-                    it should render the changes made)  
 
---><!DOCTYPE html>
+ OVERVIEW:
+This script powers a minimal yet interactive TODO list. It allows users to add, delete, and edit their daily tasks in a smooth, intuitive manner using DOM manipulation and a local JavaScript array.
+
+------------------------------------------------------------------------------
+
+ FEATURES IMPLEMENTED:
+
+1️ ADDING TODOS:
+    - The user can type a task in the input box.
+    - On clicking the "Add" button, the task is pushed into the `todos[]` array.
+    - It is then rendered dynamically in the list using JavaScript.
+
+2️ DELETING TODOS:
+    - Each task is rendered with a "Delete" button.
+    - Clicking it removes the task from the `todos[]` array and updates the DOM.
+    - Useful when the user wants to cancel or reschedule a task.
+
+3️ EDITING TODOS:
+    - Each task has an "Edit" button.
+    - On clicking "Edit", the existing task is placed into an input box with the text pre-filled.
+    - The "Edit" button changes to a "Save" button.
+    - After making changes and clicking "Save", the updated task is saved in the array and re-rendered.
+
+   TECHNICAL NOTES:
+    - The app uses vanilla JavaScript (no frameworks).
+    - All operations are in-memory (i.e., data does not persist after refresh).
+    - Efficient use of `eventListeners`, dynamic DOM updates, and array indexing.
+
+ FUTURE IMPROVEMENTS:
+    - Store todos in `localStorage` to persist across sessions.
+    - Add user authentication to sync tasks with the backend.
+    - Add checkbox to mark tasks as "completed".
+
+------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
