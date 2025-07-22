@@ -10,8 +10,8 @@ const User = new Schema({
 
 const Todo = new Schema({
     title : String,
-    dobne : Boolean,
-    UserId : ObjectId
+    done : Boolean,
+    userId : ObjectId
 })
 
 const UserModel = mongoose.model('users', User)

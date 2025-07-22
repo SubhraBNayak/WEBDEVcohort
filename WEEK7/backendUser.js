@@ -24,18 +24,18 @@ app.post("/signup", async function(req, res){
     })
 })
 
-app.post("/signin", function(req, res){
+app.post("/signin", async function(req, res){
     const email = req.body.email
     const password = req.body.password
 
-    const user = UserModel.findOne({
+    const user = await UserModel.findOne({
         email : email,
         password : password
     })
 
     if (user) {
         const token = jwt.sign({
-            id : user._id
+            id : user._id.toString()
         }, JWT_SECRET)
         res.status(200).send({
             token : token
@@ -47,11 +47,28 @@ app.post("/signin", function(req, res){
     }
 })
 
-app.post("", function(req, res){
-    
+app.post("/pushTodoItems", async function(req, res){
+    const todoItem = req.body.todoItem
+    const token = req.headers.token
+    const userId = jwt.verify(token, JWT_SECRET).id
+
+    if (userId) {
+        await TodoModel.create({
+            title : todoItem,
+            done : false, 
+            userId : userId 
+        })
+        res.status(200).send({
+            message : "Todo updated Successfully!!"
+        })
+    }else{
+        res.status(403).send({
+            message : "user not logged in!!"
+        })
+    }
 })
 
-app.get("", function(req, res){
+app.get("/fetchTodoItems", function(req, res){
     
 })
 
