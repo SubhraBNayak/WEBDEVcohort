@@ -69,7 +69,7 @@ app.post("/pushTodoItems", async function(req, res){
 })
 
 app.get("/fetchTodoItems", function(req, res){
-    
+    //this endpoint fetches todo Items
 })
 
 app.listen(3000)
