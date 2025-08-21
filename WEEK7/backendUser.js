@@ -1,31 +1,26 @@
-const express = require("express")
-const app = express()
-const jwt = require('jsonwebtoken')
-const JWT_SECRET = "ihateyou"
-const mongoose = require('mongoose')
-mongoose.connect("mongodb+srv://subhrabikiran:SwL2TrEg3vSBOv7Y@cluster0.je3gfax.mongodb.net/todo-app-database")
-const {UserModel, TodoModel} = require("./mongodb")
+const express = require('express');
+const app = express();
+const jwt = require('jsonwebtoken');
+const _JWTSECRET = "ihateyou";
+const mongoose = require('mongoose');
+mongoose.connect("mongodb+srv://subhrabikiran:5EFFf23f3MN4rKaI@cluster0.je3gfax.mongodb.net/");
+const {UserModel, TodoModel} = require("./mongodb");
 
-app.use(express.json())
+app.use(express.json());
 
 app.post("/signup", async function(req, res){
-    const email = req.body.email
-    const password = req.body.password
-    const name = req.body.name
+    const email = req.body.email;
+    const password = req.body.password;
+    const name = req.body.name;
 
     await UserModel.create({
         email : email,
-        password : password,
         name : name
-    })
-
-    res.json({
-        message : "you are signed up!"
     })
 })
 
 app.post("/signin", async function(req, res){
-    const email = req.body.email
+    const email = req.body.email;
     const password = req.body.password
 
     const user = await UserModel.findOne({
@@ -36,40 +31,28 @@ app.post("/signin", async function(req, res){
     if (user) {
         const token = jwt.sign({
             id : user._id.toString()
-        }, JWT_SECRET)
+        }, _JWTSECRET);
+        localStorage.setItem("token", token);
         res.status(200).send({
-            token : token
+            message : "User LoggedIn"
         })
     }else{
-        res.status(403).send({
-            message : "user credentials invalid"
+        res.status(401).send({
+            message : "User not verified! Invalid Credentials"
         })
     }
 })
 
-app.post("/pushTodoItems", async function(req, res){
-    const todoItem = req.body.todoItem
-    const token = req.headers.token
-    const userId = jwt.verify(token, JWT_SECRET).id
-
-    if (userId) {
-        await TodoModel.create({
-            title : todoItem,
-            done : false, 
-            userId : userId 
-        })
-        res.status(200).send({
-            message : "Todo updated Successfully!!"
-        })
-    }else{
-        res.status(403).send({
-            message : "user not logged in!!"
+app.post("/pushtodoitems", function(req, res){
+    const token = localStorage.getItem("token");
+    const userId = jwt.verify(token, _JWTSECRET).id;
+    const todoItem = req.body.todoItem; 
+    if (decoded) {
+        TodoModel.create({
+            userId : userId,
+            title : todoItem
         })
     }
 })
 
-app.get("/fetchTodoItems", function(req, res){
-    //this endpoint fetches todo Items
-})
-
-app.listen(3000)
+app.listen(3000);
