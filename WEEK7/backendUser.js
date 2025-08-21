@@ -21,7 +21,7 @@ app.post("/signup", async function(req, res){
 
 app.post("/signin", async function(req, res){
     const email = req.body.email;
-    const password = req.body.password
+    const password = req.body.password;
 
     const user = await UserModel.findOne({
         email : email,
@@ -43,14 +43,38 @@ app.post("/signin", async function(req, res){
     }
 })
 
-app.post("/pushtodoitems", function(req, res){
-    const token = localStorage.getItem("token");
+app.post("/pushTodoItems", async function(req, res){
+    const token = req.headers.token;
     const userId = jwt.verify(token, _JWTSECRET).id;
     const todoItem = req.body.todoItem; 
-    if (decoded) {
-        TodoModel.create({
+    if (userId) {
+        await TodoModel.create({
             userId : userId,
             title : todoItem
+        })
+        res.status(200).send({
+            message : "allok"
+        })
+    }else{
+        res.status(401).send({
+            message : "jsonwebtoken not verified!"
+        })
+    }
+})
+
+app.get("/getTodoItems", async function(req, res){
+    const token = req.headers.token;
+    const userId = jwt.verify(token, _JWTSECRET).id;
+    if (userId) {
+        const todos = await TodoModel.find({
+            userId : userId
+        })
+        res.status(200).send({
+            todos
+        })
+    }else{
+        res.status(401).send({
+            message : "jsonwebtoken not verified"
         })
     }
 })
