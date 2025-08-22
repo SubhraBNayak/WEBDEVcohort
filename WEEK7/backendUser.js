@@ -3,8 +3,20 @@ const app = express();
 const jwt = require('jsonwebtoken');
 const _JWTSECRET = "ihateyou";
 const mongoose = require('mongoose');
-mongoose.connect("mongodb+srv://subhrabikiran:5EFFf23f3MN4rKaI@cluster0.je3gfax.mongodb.net/");
+mongoose.connect("mongodb+srv://subhrabikiran:LeZshcaShnL3DEnU@cluster0.je3gfax.mongodb.net/todo-app-database");
 const {UserModel, TodoModel} = require("./mongodb");
+
+function authorization(req, res, next){
+    const token = req.headers.token;
+    const userId = jwt.verify(token, _JWTSECRET);
+    if (userId) {
+        req.id = userId.id;
+        res.status(200);
+        next()
+    }else{
+        res.status(401);
+    }
+}
 
 app.use(express.json());
 
@@ -15,7 +27,12 @@ app.post("/signup", async function(req, res){
 
     await UserModel.create({
         email : email,
-        name : name
+        name : name,
+        password : password
+    })
+
+    res.json(200).send({
+        message : "you are signed up!"
     })
 })
 
@@ -32,9 +49,8 @@ app.post("/signin", async function(req, res){
         const token = jwt.sign({
             id : user._id.toString()
         }, _JWTSECRET);
-        localStorage.setItem("token", token);
         res.status(200).send({
-            message : "User LoggedIn"
+            token : token
         })
     }else{
         res.status(401).send({
@@ -43,28 +59,22 @@ app.post("/signin", async function(req, res){
     }
 })
 
-app.post("/pushTodoItems", async function(req, res){
-    const token = req.headers.token;
-    const userId = jwt.verify(token, _JWTSECRET).id;
-    const todoItem = req.body.todoItem; 
-    if (userId) {
-        await TodoModel.create({
-            userId : userId,
-            title : todoItem
-        })
-        res.status(200).send({
-            message : "allok"
-        })
-    }else{
-        res.status(401).send({
-            message : "jsonwebtoken not verified!"
-        })
-    }
+app.post("/pushTodoItems", authorization, async function(req, res){
+    const userId = req.id;
+    const todoItem = req.body.todoItem;
+
+    await TodoModel.create({
+        userId : userId,
+        title : todoItem
+    })
+    
+    res.status(200).send({
+        message : "todos updated!"
+    })
 })
 
-app.get("/getTodoItems", async function(req, res){
-    const token = req.headers.token;
-    const userId = jwt.verify(token, _JWTSECRET).id;
+app.get("/getTodoItems", authorization, async function(req, res){
+    const userId = req.id;
     if (userId) {
         const todos = await TodoModel.find({
             userId : userId
