@@ -1,11 +1,13 @@
 {
   "dependencies": {
+    "@google/genai": "^1.17.0",
     "axios": "^1.10.0",
     "commander": "^14.0.0",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.17.2"
+    "mongoose": "^8.17.2",
+    "openai": "^5.19.1"
   },
   "devDependencies": {
     "@types/node": "^24.3.0"
