@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect   } from 'react';
 
 function App() {
   return (
@@ -12,9 +12,22 @@ function App() {
 function Counter(){
   const [count, setCount] = useState(0);
   
+  //we have to hook into the lifecycle event of react component
+  /*
+    everytime a state variable changes, the components in 'function app()' gets called again 
+    that is the precise reason why setInterval was getting called again and again 
+    the sudden flashes and crazy behaviour of the timer on screen is nothing but too many timers running at the same time
+  */
   // setInterval(() => {
   //   setCount(count + 1);
   // }, 1000);
+
+  //mounting, by using useEffect, we can guard out setInterval function from re-rendering by using useEffect
+  useEffect(function(){
+    setInterval( function () {
+      setCount(count + 1);
+    }, 1000)
+  }, [count])
 
   function IncreaseCount(){
     setCount(count + 1);
